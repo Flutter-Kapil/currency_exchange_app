@@ -5,7 +5,7 @@ class CurrencyDataMap {
   String url = 'https://api.exchangeratesapi.io/latest';
 
   Future<Map> latestMap() async {
-    Response response = await get(url);
+    Response response = await get('https://api.exchangeratesapi.io/latest');
     if (response.statusCode == 200) {
       print("response 200");
     }
