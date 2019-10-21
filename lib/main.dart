@@ -35,13 +35,12 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     List<String> x = populateButtonList(latestDataMap);
     currencyList = x;
     fetchedLatestDataMap = true;
+    print('network call made and button list updated');
     setState(() {});
   }
 
   List<String> populateButtonList(Map x) {
     Map subMap = x['rates'];
-    print('inside populate list function');
-    print('length of submap is ${subMap.length}');
     return subMap.keys.toList();
   }
 
@@ -89,8 +88,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         elevation: 5,
                         onChanged: (selectedCurrency) {
                           convertFrom = selectedCurrency;
-                          fetchLatestDataMap();
-                          print('from $selectedCurrency');
                           result = (latestDataMap['rates'][convertTo] /
                                   latestDataMap['rates'][convertFrom])
                               .toStringAsFixed(2);
@@ -116,7 +113,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         elevation: 5,
                         onChanged: (selectedCurrency) {
                           convertTo = selectedCurrency;
-                          print('to $selectedCurrency');
                           result = (latestDataMap['rates'][convertTo] /
                                   latestDataMap['rates'][convertFrom])
                               .toStringAsFixed(2);
