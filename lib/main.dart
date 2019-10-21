@@ -26,7 +26,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
   void initState() {
     fetchLatestDataMap();
     fetchedLatestDataMap = true;
-    // TODO: implement initState
     super.initState();
   }
 
@@ -137,10 +136,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                 ],
               ),
             ),
-            FlatButton(
-              child: Text('test button'),
-              onPressed: () {},
-            )
           ],
         ),
       ),
