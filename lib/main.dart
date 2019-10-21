@@ -14,7 +14,6 @@ class CurrencyExchange extends StatefulWidget {
 
 String convertFrom = 'USD';
 String convertTo = 'USD';
-bool fetchedLatestDataMap = false;
 List<String> currencyList = ['USD'];
 
 CurrencyDataMap currentData = CurrencyDataMap();
@@ -25,7 +24,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
   @override
   void initState() {
     fetchLatestDataMap();
-    fetchedLatestDataMap = true;
     super.initState();
   }
 
@@ -34,7 +32,6 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     //now lets automate all the values of drop down menu
     List<String> x = populateButtonList(latestDataMap);
     currencyList = x;
-    fetchedLatestDataMap = true;
     print('network call made and button list updated');
     setState(() {});
   }
