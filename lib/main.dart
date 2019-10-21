@@ -14,11 +14,12 @@ class CurrencyExchange extends StatefulWidget {
 
 String convertFrom = 'USD';
 String convertTo = 'USD';
-bool fetchedLatestDataMap = true;
+bool fetchedLatestDataMap = false;
 List<String> currencyList = ['USD'];
 
 CurrencyDataMap currentData = CurrencyDataMap();
 Map latestDataMap;
+String result = '1';
 
 class _CurrencyExchangeState extends State<CurrencyExchange> {
   @override
@@ -34,6 +35,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     //now lets automate all the values of drop down menu
     List<String> x = populateButtonList(latestDataMap);
     currencyList = x;
+    fetchedLatestDataMap = true;
     setState(() {});
   }
 
@@ -67,8 +69,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text('${latestDataMap['rates'][convertTo] / latestDataMap['rates'][convertFrom]}') ??
-                          Text('1'),
+                      Text(result),
                       Text(convertTo),
                     ],
                   ),
@@ -91,7 +92,9 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                           convertFrom = selectedCurrency;
                           fetchLatestDataMap();
                           print('from $selectedCurrency');
-
+                          result = (latestDataMap['rates'][convertTo] /
+                                  latestDataMap['rates'][convertFrom])
+                              .toStringAsFixed(2);
                           setState(() {});
                         },
                         items: currencyList
@@ -115,7 +118,9 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         onChanged: (selectedCurrency) {
                           convertTo = selectedCurrency;
                           print('to $selectedCurrency');
-
+                          result = (latestDataMap['rates'][convertTo] /
+                                  latestDataMap['rates'][convertFrom])
+                              .toStringAsFixed(2);
                           setState(() {});
                         },
                         items: currencyList
