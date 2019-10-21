@@ -13,39 +13,35 @@ class CurrencyExchange extends StatefulWidget {
 }
 
 String convertFrom = 'USD';
-String convertTo = 'AUD';
-bool fetchedDataMap = true;
-List currencyList = ['USD', 'INR', 'AUD'];
-NetworkHelper fetchUrlFromValues =
-    NetworkHelper(fromCurrency: convertFrom, toCurrency: convertTo);
+String convertTo = 'USD';
+bool fetchedLatestDataMap = true;
+List<String> currencyList = ['USD'];
 
+CurrencyDataMap currentData = CurrencyDataMap();
 Map latestDataMap;
-final List<DropdownMenuItem<String>> currenciesList = [
-  DropdownMenuItem(
-    child: Text(
-        'USD'), // this is what user will see in the list, like variable value which user interacts with
-    value: 'USD', //value is sort of like index, like variable name
-  ),
-  DropdownMenuItem(child: Text('AUD'), value: 'AUD'),
-  DropdownMenuItem(child: Text('INR'), value: 'INR')
-];
 
 class _CurrencyExchangeState extends State<CurrencyExchange> {
   @override
   void initState() {
-    String fetchedURL = fetchUrlFromValues.url;
-    print(fetchedURL);
+    fetchLatestDataMap();
+    fetchedLatestDataMap = true;
     // TODO: implement initState
     super.initState();
   }
 
   void fetchLatestDataMap() async {
-    print('will try to fetch news');
-    fetchUrlFromValues =
-        NetworkHelper(fromCurrency: convertFrom, toCurrency: convertTo);
-    latestDataMap = await fetchUrlFromValues.fetchDataMapFromUrl();
-    fetchedDataMap = true;
+    latestDataMap = await currentData.latestMap();
+    //now lets automate all the values of drop down menu
+    List<String> x = populateButtonList(latestDataMap);
+    currencyList = x;
     setState(() {});
+  }
+
+  List<String> populateButtonList(Map x) {
+    Map subMap = x['rates'];
+    print('inside populate list function');
+    print('length of submap is ${subMap.length}');
+    return subMap.keys.toList();
   }
 
   @override
@@ -71,7 +67,8 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text('1'),
+                      Text('${latestDataMap['rates'][convertTo] / latestDataMap['rates'][convertFrom]}') ??
+                          Text('1'),
                       Text(convertTo),
                     ],
                   ),
@@ -92,12 +89,18 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         elevation: 5,
                         onChanged: (selectedCurrency) {
                           convertFrom = selectedCurrency;
+                          fetchLatestDataMap();
                           print('from $selectedCurrency');
 
-                          print('url now is ${fetchUrlFromValues.url}');
                           setState(() {});
                         },
-                        items: currenciesList,
+                        items: currencyList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                         value: convertFrom,
                       )
                     ],
@@ -112,18 +115,26 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         onChanged: (selectedCurrency) {
                           convertTo = selectedCurrency;
                           print('to $selectedCurrency');
-                          fetchUrlFromValues = NetworkHelper(
-                              fromCurrency: convertFrom, toCurrency: convertTo);
-                          print('url now is ${fetchUrlFromValues.url}');
+
                           setState(() {});
                         },
-                        items: currenciesList,
+                        items: currencyList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                         value: convertFrom,
                       )
                     ],
                   )
                 ],
               ),
+            ),
+            FlatButton(
+              child: Text('test button'),
+              onPressed: () {},
             )
           ],
         ),
