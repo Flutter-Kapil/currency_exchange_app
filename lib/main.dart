@@ -41,8 +41,8 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
 
   void fetchLatestDataMap() async {
     print('will try to fetch news');
-    fetchUrlFromValues = NetworkHelper(
-        fromCurrency: convertFrom, toCurrency: convertTo);
+    fetchUrlFromValues =
+        NetworkHelper(fromCurrency: convertFrom, toCurrency: convertTo);
     latestDataMap = await fetchUrlFromValues.fetchDataMapFromUrl();
     fetchedDataMap = true;
     setState(() {});

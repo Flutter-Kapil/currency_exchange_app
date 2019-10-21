@@ -9,8 +9,7 @@ class NetworkHelper {
   NetworkHelper({String fromCurrency, String toCurrency}) {
     this.fromCurrency = fromCurrency;
     this.toCurrency = toCurrency;
-    this.url =
-        'https://api.exchangeratesapi.io/latest';
+    this.url = 'https://api.exchangeratesapi.io/latest';
   }
 
   Future<Map> fetchDataMapFromUrl() async {
@@ -24,7 +23,7 @@ class NetworkHelper {
   }
 }
 
-class CurrencyDataMap{
+class CurrencyDataMap {
   String url = 'https://api.exchangeratesapi.io/latest';
 
   Future<Map> latestMap() async {
@@ -35,5 +34,4 @@ class CurrencyDataMap{
     Map<String, dynamic> allCurrenciesMap = jsonDecode(response.body);
     return allCurrenciesMap;
   }
-
 }
