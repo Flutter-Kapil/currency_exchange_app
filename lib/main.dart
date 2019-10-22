@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'currency_api_helper.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -131,25 +132,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                 border: Border.all(),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.0))),
-                            child: DropdownButton(
-                              isExpanded: true,
-                              elevation: 5,
-                              onChanged: (selectedCurrency) {
-                                convertFrom = selectedCurrency;
-                                result = (latestDataMap['rates'][convertTo] /
-                                        latestDataMap['rates'][convertFrom])
-                                    .toStringAsFixed(2);
-                                setState(() {});
-                              },
-                              items: currencyList.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text("            $value  "),
-                                );
-                              }).toList(),
-                              value: convertFrom,
-                            ),
+                            child: androidDropdownFromButton(),
                           )
                         ],
                       ),
@@ -204,4 +187,28 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
       ),
     );
   }
+
+  DropdownButton<String> androidDropdownFromButton() {
+    return DropdownButton(
+      isExpanded: true,
+      elevation: 5,
+      onChanged: (selectedCurrency) {
+        convertFrom = selectedCurrency;
+        result = (latestDataMap['rates'][convertTo] /
+                latestDataMap['rates'][convertFrom])
+            .toStringAsFixed(2);
+        setState(() {});
+      },
+      items: currencyList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text("            $value  "),
+        );
+      }).toList(),
+      value: convertFrom,
+    );
+  }
+
 }
+
+
