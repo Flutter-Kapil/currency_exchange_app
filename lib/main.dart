@@ -208,7 +208,4 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
       value: convertFrom,
     );
   }
-
 }
-
-
