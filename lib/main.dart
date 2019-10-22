@@ -4,7 +4,6 @@ import 'currency_api_helper.dart';
 void main() {
   runApp(MaterialApp(
     theme: ThemeData(
-      canvasColor: Colors.blueGrey,
       appBarTheme: AppBarTheme(color: Colors.white),
       textTheme: TextTheme(
         headline: TextStyle(fontSize: 68.0, color: Colors.red),
@@ -59,6 +58,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(
           'Exchange Rates',
           style: TextStyle(color: Colors.white),
@@ -116,6 +116,9 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    SizedBox(
+                      width: 40,
+                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +145,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                   (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text("        $value     "),
+                                  child: Text("            $value  "),
                                 );
                               }).toList(),
                               value: convertFrom,
@@ -152,7 +155,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                       ),
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 40,
                     ),
                     Expanded(
                       child: Column(
@@ -183,11 +186,14 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                   child: Text("        $value     "),
                                 );
                               }).toList(),
-                              value: convertFrom,
+                              value: convertTo,
                             ),
                           )
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      width: 40,
                     ),
                   ],
                 ),
