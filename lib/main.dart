@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'currency_api_helper.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 void main() {
   runApp(MaterialApp(
@@ -127,13 +128,13 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                           Text('From',
                               style: Theme.of(context).textTheme.title),
                           //covert from selected currency
-                          Container(
+                          Platform.isAndroid?Container(
                             decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.0))),
                             child: androidDropdownFromButton(),
-                          )
+                          ):myIOsPickerFrom()
                         ],
                       ),
                     ),
@@ -151,26 +152,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                 border: Border.all(),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.0))),
-                            child: DropdownButton(
-                              isExpanded: true,
-                              iconSize: 30,
-                              elevation: 5,
-                              onChanged: (selectedCurrency) {
-                                convertTo = selectedCurrency;
-                                result = (latestDataMap['rates'][convertTo] /
-                                        latestDataMap['rates'][convertFrom])
-                                    .toStringAsFixed(2);
-                                setState(() {});
-                              },
-                              items: currencyList.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text("        $value     "),
-                                );
-                              }).toList(),
-                              value: convertTo,
-                            ),
+                            child: Platform.isAndroid?androidDropdownToButton():myIOsPickerTo(),
                           )
                         ],
                       ),
@@ -182,6 +164,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
@@ -208,4 +191,64 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
       value: convertFrom,
     );
   }
+
+    DropdownButton<String> androidDropdownToButton() {
+    return DropdownButton(
+      isExpanded: true,
+      elevation: 5,
+      onChanged: (selectedCurrency) {
+        convertFrom = selectedCurrency;
+        result = (latestDataMap['rates'][convertTo] /
+                latestDataMap['rates'][convertFrom])
+            .toStringAsFixed(2);
+        setState(() {});
+      },
+      items: currencyList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text("            $value  "),
+        );
+      }).toList(),
+      value: convertTo,
+    );
+  }
+
+
+Widget myIOsPickerTo(){
+  return CupertinoPicker.builder(
+    itemExtent:40,
+    childCount: currencyList.length,
+    itemBuilder: (context,index){
+      print("index in IOS picker is $index");
+      return Text(currencyList[index]);
+    }, onSelectedItemChanged:(index) {
+                                convertTo = currencyList[index];
+                                result = (latestDataMap['rates'][convertTo] /
+                                        latestDataMap['rates'][convertFrom])
+                                    .toStringAsFixed(2);
+                                setState(() {});
+                              },
+  );
+}
+
+Widget myIOsPickerFrom(){
+  return CupertinoPicker.builder(
+    itemExtent:40,
+    childCount: currencyList.length,
+    itemBuilder: (context,index){
+      print("index in IOS picker is $index");
+      return Text(currencyList[index]);
+    }, onSelectedItemChanged:(index) {
+                                convertFrom = currencyList[index];
+                                result = (latestDataMap['rates'][convertTo] /
+                                        latestDataMap['rates'][convertFrom])
+                                    .toStringAsFixed(2);
+                                setState(() {});
+                              },
+  );
+}
+
+
+
+
 }
