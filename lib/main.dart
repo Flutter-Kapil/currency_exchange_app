@@ -147,13 +147,13 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                         children: <Widget>[
                           Text('To', style: Theme.of(context).textTheme.title),
                           //covert to  selected currency
-                          Container(
+                          Platform.isAndroid?Container(
                             decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.0))),
-                            child: Platform.isAndroid?androidDropdownToButton():myIOsPickerTo(),
-                          )
+                            child: androidDropdownToButton(),
+                          ):myIOsPickerTo()
                         ],
                       ),
                     ),
