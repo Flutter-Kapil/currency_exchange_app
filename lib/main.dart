@@ -110,61 +110,58 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                 ),
               ),
             ),
+            Container(
+              height: 2,
+              color: Colors.black12,
+            ),
             Expanded(
-              flex: 2,
-              child: Container(
-                padding: EdgeInsets.only(top: 10),
-                color: Colors.white,
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.only(left: 12,right: 12),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SizedBox(
-                      width: 40,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('From',
-                              style: Theme.of(context).textTheme.title),
-                          //covert from selected currency
-                          Platform.isAndroid?Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0))),
-                            child: androidDropdownFromButton(),
-                          ):myIOsPickerFrom()
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('To', style: Theme.of(context).textTheme.title),
-                          //covert to  selected currency
-                          Platform.isAndroid?Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0))),
-                            child: androidDropdownToButton(),
-                          ):myIOsPickerTo()
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    ),
+                    Text('From', style: Theme.of(context).textTheme.title),
+                    Text('To', style: Theme.of(context).textTheme.title)
                   ],
                 ),
               ),
             ),
-
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12,right: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Platform.isAndroid
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0))),
+                              child: androidDropdownFromButton(),
+                            )
+                          : myIOsPickerFrom(),
+                    ),
+                    Expanded(
+                      child: Platform.isAndroid
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0))),
+                              child: androidDropdownToButton(),
+                            )
+                          : myIOsPickerTo(),
+                    ),
+                   
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -192,7 +189,7 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     );
   }
 
-    DropdownButton<String> androidDropdownToButton() {
+  DropdownButton<String> androidDropdownToButton() {
     return DropdownButton(
       isExpanded: true,
       elevation: 5,
@@ -213,42 +210,39 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
     );
   }
 
+  Widget myIOsPickerTo() {
+    return CupertinoPicker.builder(
+      itemExtent: 40,
+      childCount: currencyList.length,
+      itemBuilder: (context, index) {
+        print("index in IOS picker is $index");
+        return Text(currencyList[index]);
+      },
+      onSelectedItemChanged: (index) {
+        convertTo = currencyList[index];
+        result = (latestDataMap['rates'][convertTo] /
+                latestDataMap['rates'][convertFrom])
+            .toStringAsFixed(2);
+        setState(() {});
+      },
+    );
+  }
 
-Widget myIOsPickerTo(){
-  return CupertinoPicker.builder(
-    itemExtent:40,
-    childCount: currencyList.length,
-    itemBuilder: (context,index){
-      print("index in IOS picker is $index");
-      return Text(currencyList[index]);
-    }, onSelectedItemChanged:(index) {
-                                convertTo = currencyList[index];
-                                result = (latestDataMap['rates'][convertTo] /
-                                        latestDataMap['rates'][convertFrom])
-                                    .toStringAsFixed(2);
-                                setState(() {});
-                              },
-  );
-}
-
-Widget myIOsPickerFrom(){
-  return CupertinoPicker.builder(
-    itemExtent:40,
-    childCount: currencyList.length,
-    itemBuilder: (context,index){
-      print("index in IOS picker is $index");
-      return Text(currencyList[index]);
-    }, onSelectedItemChanged:(index) {
-                                convertFrom = currencyList[index];
-                                result = (latestDataMap['rates'][convertTo] /
-                                        latestDataMap['rates'][convertFrom])
-                                    .toStringAsFixed(2);
-                                setState(() {});
-                              },
-  );
-}
-
-
-
-
+  Widget myIOsPickerFrom() {
+    return CupertinoPicker.builder(
+      itemExtent: 40,
+      childCount: currencyList.length,
+      itemBuilder: (context, index) {
+        print("index in IOS picker is $index");
+        return Text(currencyList[index]);
+      },
+      onSelectedItemChanged: (index) {
+        convertFrom = currencyList[index];
+        result = (latestDataMap['rates'][convertTo] /
+                latestDataMap['rates'][convertFrom])
+            .toStringAsFixed(2);
+        setState(() {});
+      },
+    );
+  }
 }
