@@ -136,26 +136,32 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      child: Platform.isAndroid
-                          ? Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0))),
-                              child: androidDropdownFromButton(),
-                            )
-                          : myIOsPickerFrom(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Platform.isAndroid
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0))),
+                                child: androidDropdownFromButton(),
+                              )
+                            : myIOsPickerFrom(),
+                      ),
                     ),
                     Expanded(
-                      child: Platform.isAndroid
-                          ? Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0))),
-                              child: androidDropdownToButton(),
-                            )
-                          : myIOsPickerTo(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Platform.isAndroid
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0))),
+                                child: androidDropdownToButton(),
+                              )
+                            : myIOsPickerTo(),
+                      ),
                     ),
                    
                   ],
